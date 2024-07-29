@@ -11,37 +11,37 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
+@Table(name = "student")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "firstName")
+    @Column(name = "first_name",nullable=false)
     private String firstName;
 
-    @Column(name = "lastName")
+    @Column(name = "last_name", nullable=false)
     private String lastName;
 
-    @Column(name = "iin")
+    @Column(name = "iin", nullable=false)
     private String iin;
 
-    @Column(name = "dateOfBirth")
+    @Column(name = "date_of_birth", nullable=false)
     private LocalDate dateOfBirth;
 
-    @Column(name = "dateOfBirth")
+    @Column(name = "email", nullable=false)
     private String email;
 
 //    @Column(name = "univer_id")
 //    private Long univer_id;
 
 
-    @ManyToMany(mappedBy = "students")
-    private List<Univer> univers;
+    @ManyToOne
+    @JoinColumn(name = "univer_id")
+    private Univer univer;
 
-    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
-    private EduCard eduCard;
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    private List<EduCard> eduCards;
 }

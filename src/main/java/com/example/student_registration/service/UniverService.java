@@ -1,24 +1,34 @@
 package com.example.student_registration.service;
 
 import com.example.student_registration.DTO.UniverDto;
+import com.example.student_registration.entity.Univer;
+import com.example.student_registration.repository.UniverRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class UniverService {
 
     List<UniverDto> univers = new ArrayList<>();
     private long ID = 0;
 
-    {
-        univers.add(new UniverDto(ID++, "KarTU", "Kazakhstan", "Karaganda", "Bulvar mira 56"));
-        univers.add(new UniverDto(ID++, "Astana IT", "Kazakhstan", "Astana", "Mangilik El"));
-    }
+    private final UniverRepository univerRepository;
 
     public List<UniverDto> getUnivers() {
-        return univers;
+        List<Univer> univers = univerRepository.findAll();
+        return UniverDto.createListUniverDto(univers);
+    }
+
+    public UniverDto getUniver(Long id) {
+        Univer univer = univerRepository.findById(id).orElseThrow(()-> new RuntimeException("Univer not found with id: " + id));
+        return UniverDto.createUniver(univer);
     }
 
     public void addUniver(UniverDto univerDto) {
@@ -37,15 +47,15 @@ public class UniverService {
         return null;
     }
 
-    public void updateUniver(Long id, UniverDto updatedUniver) {
-        for (UniverDto univerDto : univers) {
-            if(univerDto.getId().equals(id)){
-                univerDto.setName(updatedUniver.getName());
-                univerDto.setCountry(updatedUniver.getCountry());
-                univerDto.setCity(updatedUniver.getCity());
-                univerDto.setAddress(updatedUniver.getAddress());
-                break;
-            }
+    public void updateUniver(Long id, UniverDto updatedUniverDto) {
+        Optional<Univer> univerOptional = univerRepository.findById(id);
+        if(univerOptional.isPresent()) {
+            Univer univer = univerOptional.get();
+            univer.setName(updatedUniverDto.getName());
+            univer.setCountry(updatedUniverDto.getCountry());
+            univer.setCity(updatedUniverDto.getCity());
+            univer.setAddress(updatedUniverDto.getAddress());
+            univerRepository.save(univer);
         }
     }
 }
