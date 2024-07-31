@@ -5,6 +5,8 @@ import com.example.student_registration.entity.Student;
 import com.example.student_registration.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,5 +46,10 @@ public class StudentService {
             student.setEmail(updatedStudentDto.getEmail());
             studentRepository.save(student);
         }
+    }
+
+    public Page<StudentDto> getStudentPage(Pageable pageable) {
+        Page<Student> studentPage = studentRepository.findAll(pageable);
+        return studentPage.map(StudentDto::createStudent);
     }
 }

@@ -5,6 +5,8 @@ import com.example.student_registration.entity.Univer;
 import com.example.student_registration.repository.UniverRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ public class UniverService {
         Univer univer = univerRepository.findById(id).orElseThrow(()-> new RuntimeException("Univer not found with id: " + id));
         return UniverDto.createUniver(univer);
     }
+
 
     public void addUniver(UniverDto univerDto) {
         univerDto.setId(ID++);
@@ -57,5 +60,15 @@ public class UniverService {
             univer.setAddress(updatedUniverDto.getAddress());
             univerRepository.save(univer);
         }
+    }
+
+    public Page<UniverDto> getUniversPage(Pageable pageable){
+        Page<Univer> univerPage = univerRepository.findAll(pageable);
+        return univerPage.map(UniverDto::createUniver);
+    }
+
+    public Page<UniverDto> getUniversCity(String city, Pageable pageable){
+        Page<Univer> univerPage = univerRepository.findByCity(city, pageable);
+        return univerPage.map(UniverDto::createUniver);
     }
 }
