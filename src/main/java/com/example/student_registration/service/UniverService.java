@@ -40,7 +40,7 @@ public class UniverService {
     }
 
     public void deleteUniver(Long id) {
-        univers.removeIf(univerDto1 -> univerDto1.getId().equals(id));
+        univerRepository.deleteById(id);
     }
 
     public UniverDto getUniverById(Long id) {

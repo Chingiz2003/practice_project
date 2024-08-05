@@ -1,0 +1,10 @@
+services:
+  student_registration:
+    image: student_registration:latest
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      PG_URL: jdbc:postgresql://localhost:5432/edu_db
+      PG_PASSWORD: 123
+      PG_USERNAME: postgres
+    ports:
+      - 9000:9000

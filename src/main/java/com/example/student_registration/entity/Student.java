@@ -42,6 +42,6 @@ public class Student {
     @JoinColumn(name = "univer_id")
     private Univer univer;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EduCard> eduCards;
 }

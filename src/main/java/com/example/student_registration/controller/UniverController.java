@@ -43,6 +43,13 @@ public class UniverController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("delete/{id}")
+    @Operation(summary = "Удаление универа из бд")
+    public ResponseEntity<Void> deleteUniver(@PathVariable Long id){
+        univerService.deleteUniver(id);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/paged")
     @Operation(summary = "Пагинация универов")
     public ResponseEntity<Page<UniverDto>> universPage(@RequestParam(defaultValue = "0") int page,

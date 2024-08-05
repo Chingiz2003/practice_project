@@ -51,6 +51,13 @@ public class StudentController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("delete/{id}")
+    @Operation(summary = "Удаление студента из бд")
+    public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
+        studentService.deleteStudent(id);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/paged")
     @Operation(summary = "Пагинация студентов")
     public ResponseEntity<Page<StudentDto>> studentsPage(@RequestParam(defaultValue = "0") int page,

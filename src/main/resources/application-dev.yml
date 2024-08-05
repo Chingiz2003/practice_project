@@ -1,0 +1,21 @@
+server:
+  port: 9000
+  error:
+    include-message: always
+
+spring:
+  application:
+    name: student_registration
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: ${PG_USERNAME}
+    password: ${PG_PASSWORD}
+    url: ${PG_URL}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
